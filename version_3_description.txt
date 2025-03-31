@@ -1,0 +1,71 @@
+============================
+Version 3 – Data Persistence and Identity-Based Booking
+============================
+
+This version represents the final development phase of the Apache Airlines Seat Booking System.
+It focuses on implementing data persistence using SQLite3 and enhancing booking functionality with reference codes and passenger identity validation.
+
+---
+
+✅ NEW FEATURES:
+
+1. 🎫 Booking Reference Code System
+   - Every successful booking now generates a unique 8-character reference code (e.g., A7B9C3D2)
+   - Codes are alphanumeric and stored alongside booking data
+   - Users must provide this code to cancel their booking
+
+2. 🧍 Passenger Information Collection
+   - All bookings now require full name and passport number
+   - Passport numbers must be alphanumeric, 6–9 characters
+
+3. 🗃️ SQLite3 Database Integration
+   - All booking records are stored in a local SQLite database: `flight757_booking.db`
+   - Data is persistent between program runs
+   - Fields stored: reference code, name, passport number, seat ID, timestamp
+
+4. ❌ Cancel Booking by Reference Code
+   - Old "cancel by seat" method removed
+   - Users now cancel bookings securely using the booking reference
+   - System checks if reference exists before allowing cancellation
+
+5. 🔍 Search Booking by Name + Passport Number
+   - If a user forgets their reference, they can retrieve it by providing their full name and passport number
+   - This improves usability and mimics real-world airline systems
+
+6. 👨‍👩‍👧 Group Booking Upgrade
+   - Group booking (up to 3 seats) now collects identity info for each seat
+   - Each passenger gets a separate reference code
+   - If any seat in the group is invalid or reserved, the whole booking fails safely
+
+7. 🛠️ Codebase Modularization Improved
+   - Centralized constants (e.g., DB name, reference length) in `constants.py`
+   - Input validations for passport/reference format added in `validation.py`
+   - All database operations moved to `database.py`
+
+---
+
+🧪 TESTING COMPLETED:
+
+- 19+ functional test cases designed and verified (booking, cancelling, layout, search, group booking, validation)
+- Edge cases such as invalid input, overbooking, invalid reference handled gracefully
+
+---
+
+📂 DATABASE STRUCTURE:
+
+Table: passengers
+Fields:
+- reference_code (TEXT, PRIMARY KEY)
+- name (TEXT)
+- passport_number (TEXT)
+- seat_id (TEXT)
+- timestamp (TEXT)
+
+---
+
+💡 Summary:
+
+Version 3 successfully adds long-term data management, booking traceability, and realistic user interaction features.
+It brings the system in line with industry expectations for identity-based reservation platforms.
+
+This version satisfies the requirements for **Part B** of the FC723 coursework.

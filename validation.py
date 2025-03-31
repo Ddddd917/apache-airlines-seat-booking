@@ -9,6 +9,8 @@ Created on Sun Mar 30 21:22:30 2025
 # validation.py
 
 from constants import COLUMNS, ROWS, AISLE, STORAGE
+import re
+from constants import REFERENCE_CODE_LENGTH
 
 # Check if a seat identifier is valid (e.g., "12A", "80F", etc.)
 def is_valid_seat_id(seat_id):
@@ -59,3 +61,16 @@ def is_seat_reserved(seat_id, seat_map):
     Returns True if the seat is currently marked as reserved.
     """
     return seat_map.get(seat_id) == 'R'
+
+
+def is_valid_passport_number(passport):
+    """
+    Checks if the passport number is alphanumeric and between 6 to 9 characters.
+    """
+    return passport.isalnum() and (6 <= len(passport) <= 9)
+
+def is_valid_reference_code(code):
+    """
+    Checks if the reference code is 8 characters, alphanumeric, and uppercase.
+    """
+    return len(code) == REFERENCE_CODE_LENGTH and code.isalnum() and code.isupper()

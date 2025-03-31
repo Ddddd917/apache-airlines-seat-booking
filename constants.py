@@ -8,6 +8,12 @@ Created on Sun Mar 30 21:14:32 2025
 
 # constants.py
 
+# Reference code settings
+REFERENCE_CODE_LENGTH = 8
+
+# Database file name
+DB_NAME = "flight757_booking.db"
+
 # Seat status symbols
 FREE = 'F'
 RESERVED = 'R'
