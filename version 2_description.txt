@@ -1,0 +1,57 @@
+==================================================
+Apache Airlines Seat Booking System - Version 2.0
+==================================================
+
+Release Date: [Your release date, e.g., 2025-04-02]
+Version: 2.0
+Status: ✅ Functional (CLI-based with enhanced features)
+Author: [Your Name or Student ID]
+
+-----------------------------
+🔄 Version Overview
+-----------------------------
+This version builds upon Version 1 and introduces three new user-centered features
+to enhance booking efficiency, accessibility, and customization.
+
+All core functionalities from Version 1 remain unchanged.
+
+-----------------------------
+✨ New Features in Version 2
+-----------------------------
+
+1. ✅ Display Booking Summary
+   - Automatically shows the total number of seats (474),
+     number of reserved seats, and their seat IDs
+   - Integrated at the bottom of the seat map view
+
+2. ✅ Group Booking
+   - Users can enter multiple seat IDs in one line
+   - All seats are validated before booking
+   - If any seat is invalid/unavailable, the operation is cancelled
+
+3. ✅ Seat Preference Search
+   - Users can search for preferred seat types:
+     - `window` → A, F
+     - `aisle` → C, D
+     - `middle` → B, E
+   - The system recommends up to 4 front-row available seats
+   - Message: "The system prioritizes seats in the front rows."
+
+-----------------------------
+📂 File Changes
+-----------------------------
+- booking.py        → Added group_booking()
+- seatmap.py        → Enhanced with booking summary
+- preference.py     → New module for seat preference search
+- main.py           → Integrated options 5, 6 into the menu
+- version.txt       → Updated to Version 2.0
+
+-----------------------------
+📝 Next Steps (Version 3 Preview)
+-----------------------------
+- Store booking and passenger data using SQLite
+- Generate 8-character unique booking references
+- Add data persistence across sessions
+
+This version fulfills Part A (Q5 - Extension) and prepares for Part B.
+==================================================

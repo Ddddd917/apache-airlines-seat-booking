@@ -26,17 +26,16 @@ def book_seat(seat_map):
     """
     seat_id = input("Enter the seat you want to book (e.g., 12A): ").strip().upper()
 
-    # Step 1: check format
     if not is_valid_seat_id(seat_id):
         print()
         print("Invalid seat format. Please enter a seat like '12A'.")
         return
-    
-    # Step 2: check existence
+
     if not seat_exists(seat_id, seat_map):
-        print("That seat does not exist. Valid seats are from 1A to 80F.")
+        print()
+        print("That seat does not exist.")
         return
-    
+
     if not is_bookable(seat_id, seat_map):
         print()
         print("This seat cannot be booked. It may be an aisle or storage area.")
@@ -82,3 +81,41 @@ def cancel_seat(seat_map):
     seat_map[seat_id] = FREE
     print()
     print(f"Seat {seat_id} has been successfully canceled and is now available.")
+
+def group_booking(seat_map):
+    """
+    Allows the user to book multiple seats at once.
+    If any seat is invalid, already booked, or unbookable, the entire operation is cancelled.
+    """
+    print("\n--- Group Booking ---")
+    print("Enter multiple seat IDs separated by spaces (e.g., 12A 12B 12C):")
+    input_line = input("Seats to book: ").strip().upper()
+
+    seat_list = input_line.split()
+    invalid_seats = []
+
+    # Step 1: Validate all seats first
+    for seat_id in seat_list:
+        if not is_valid_seat_id(seat_id):
+            invalid_seats.append(f"{seat_id} (invalid format)")
+        elif not seat_exists(seat_id, seat_map):
+            invalid_seats.append(f"{seat_id} (does not exist)")
+        elif not is_bookable(seat_id, seat_map):
+            invalid_seats.append(f"{seat_id} (not bookable)")
+        elif not is_seat_free(seat_id, seat_map):
+            invalid_seats.append(f"{seat_id} (already reserved)")
+
+    # Step 2: If any errors, cancel entire booking
+    if invalid_seats:
+        print("\n❌ Group booking failed due to the following issues:")
+        for error in invalid_seats:
+            print(" -", error)
+        print("No seats were booked.\n")
+        return
+
+    # Step 3: All seats valid and free → proceed with booking
+    for seat_id in seat_list:
+        seat_map[seat_id] = RESERVED
+
+    print("\n✅ Group booking successful!")
+    print("Seats booked:", ' '.join(seat_list), "\n")

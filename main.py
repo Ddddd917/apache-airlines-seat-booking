@@ -11,6 +11,8 @@ Created on Sun Mar 30 21:26:39 2025
 from seatmap import initialize_seat_map, display_seat_map
 from booking import book_seat, cancel_seat
 from validation import is_valid_seat_id, seat_exists, is_bookable, is_seat_free, is_seat_reserved
+from booking import group_booking
+from preference import seat_preference_search
 
 def check_availability(seat_map):
     """
@@ -21,7 +23,7 @@ def check_availability(seat_map):
 
     if not is_valid_seat_id(seat_id):
         print()
-        print("Invalid seat format. Please enter a seat from ‘1A' to '80F'.")
+        print("Invalid seat format. Please enter a seat like '15B'.")
         return
 
     if not seat_exists(seat_id, seat_map):
@@ -53,7 +55,9 @@ def show_menu():
     print("2. Book a Seat")
     print("3. Cancel Booked Seat")
     print("4. Show Seats Layout and Booking Status")
-    print("5. Exit Program")
+    print("5. Group Booking")
+    print("6. Seat Preference Search")
+    print("7. Exit Program")
 
 def main():
     """
@@ -64,7 +68,7 @@ def main():
 
     while True:
         show_menu()
-        choice = input("Enter your choice (1-5): ").strip()
+        choice = input("Enter your choice (1-7): ").strip()
 
         if choice == '1':
             check_availability(seat_map)
@@ -75,12 +79,14 @@ def main():
         elif choice == '4':
             display_seat_map(seat_map)
         elif choice == '5':
-            print()
+            group_booking(seat_map)
+        elif choice == '6':
+            seat_preference_search(seat_map)
+        elif choice == '7':
             print("Thank you for using Apache Airlines Booking System. Goodbye!")
             break
         else:
-            print()
-            print("Invalid choice. Please enter a number between 1 and 5.")
+            print("Invalid choice. Please enter a number between 1 and 7.")
 
 if __name__ == "__main__":
     main()

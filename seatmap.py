@@ -25,11 +25,10 @@ def initialize_seat_map():
 
 # Function to print the seat map in a clear and aligned format
 def display_seat_map(seat_map):
-    print("\n------------ Seat Layout --------")
-    print()
+    print("\n----- Seat Layout -----")
     # Print the top header row showing seat columns and aisle
     print("     A   B   C  aisle D   E   F")
-    print()
+
     # Iterate through all 80 rows of the aircraft
     for row in range(1, ROWS + 1):
         # Start the line with the row number, left-aligned, padded to 2 characters
@@ -69,3 +68,16 @@ def display_seat_map(seat_map):
 
     # Print the legend to explain seat symbols
     print("\nLegend: <R> = Reserved, F = Free, ｜X｜ = Aisle, S = Storage")
+
+    # ==== Booking Summary ====
+    reserved_seats = [seat_id for seat_id, status in seat_map.items() if status == RESERVED]
+    total_reserved = len(reserved_seats)
+
+    print("\n----- Booking Summary -----")
+    print("Total seats available: 474")
+    print(f"Total reserved seats: {total_reserved}")
+    print(f"Remaining seats: {474-total_reserved}")
+    if reserved_seats:
+        print("Reserved seats:", ' '.join(reserved_seats))
+    else:
+        print("No seats have been reserved yet.")
