@@ -1,116 +1,112 @@
-# Apache Airlines Seat Booking System ✈️
 
-A modular Python CLI system for managing seat reservations on Apache Airlines' flight 757.  
-Built through three development phases to simulate real-world airline booking logic, data persistence, and user experience.
+# ✈️ Apache Airlines Seat Booking System
 
----
-
-## 🚀 Features Overview
-
-### ✅ Version 1: Basic Functionality
-
-- **Check Seat Availability** – Verify if a specific seat is free or reserved.
-- **Book a Seat** – Reserve a seat using its seat ID (e.g., 12A).
-- **Cancel Booking by Reference Code** – Remove a reservation by entering its code.
-- **Show Seat Layout and Booking Summary** – Print all 80 rows with reservation info.
-- **Exit Program** – Cleanly exit the system.
-
-### 🔄 Version 2: Enhanced Features
-
-- **Display Booking Summary** – Total seat count, reserved count, and reserved seat list shown below seat layout.
-- **Group Booking (Max 3 Seats)** – Book up to 3 adjacent seats with individual passenger info and reference codes.
-- **Seat Preference Search** – Recommend up to 4 front-row seats based on preference:
-  - `window` → A/F
-  - `aisle` → C/D
-  - `middle` → B/E
-
-### 🧩 Version 3: Data Persistence & Identity-Based Booking
-
-- **Passenger Info Collection** – Collect full name and passport number for every booking.
-- **Reference Code System** – Generate unique 8-character booking code (e.g., A7Z2B1QX).
-- **SQLite3 Database Integration** – All bookings are saved in `flight757_booking.db`, and persist after exit.
-- **Cancel Booking by Reference Code** – Securely cancel a booking via its unique code.
-- **Search Booking by Identity** – Retrieve booking details using name and passport number.
+This project is a command-line seat booking system for Apache Airlines, designed to simulate real-world airline reservation operations in a simplified format using Python.
 
 ---
 
-## 🧱 Tech Stack & Modules
+## 🎯 Project Objectives
 
-| File              | Purpose                                             |
-|-------------------|-----------------------------------------------------|
-| `main.py`         | Main program loop and menu logic                    |
-| `booking.py`      | Handles single/group booking, cancellations         |
-| `seatmap.py`      | Seat map generation and display                     |
-| `validation.py`   | Validates seat IDs, reference codes, passport nums  |
-| `preference.py`   | Seat recommendation engine based on user preference |
-| `database.py`     | SQLite connection and query management              |
-| `search.py`       | Allows identity-based booking lookup                |
-| `constants.py`    | Centralized config: symbols, DB name, code length   |
-| `version_x_description.txt` | Documents feature changes by version     |
+- Practice modular software development
+- Implement database-backed data persistence
+- Apply object-oriented programming in Python
+- Develop a user-friendly CLI booking interface
 
 ---
-## 🗂️ Menu Structure (Version 3)
-===== Apache Airlines Seat Booking System =====
-   1.	Check Seat Availability
-   2.	Book a Seat
-   3.	Cancel Booking by Reference Code
-   4.	Show Seat Layout and Booking Summary
-   5.	Group Booking
-   6.	Seat Preference Search
-   7.	Search Booking by Name and Passport Number
-   8.	Exit Program
 
-💡 If you forgot your reference code, you can retrieve it using option 7.
+## 🚦 Core Features
 
-## 🪑 Seat Layout
+- View seat availability
+- Book and cancel seat reservations
+- Show seat layout and booking status
+- Group booking for up to 3 adjacent seats
+- Seat preference recommendation (window, aisle, middle)
+- Search booking by name and passport number
+- Auto-generated 8-character alphanumeric reference code
+- Persistent storage using SQLite database
 
-- **Aircraft:** Apache Airlines 757  
-- **Configuration:** 80 rows × 6 seats (A–F)  
-- **Aisle:** Appears between C and D (shown as `｜X｜`)  
-- **Storage Area:** Rows 77–78, columns D/E/F (not bookable)  
-- **Total Bookable Seats:** **474**
+---
 
-### 🔍 Legend:
+### 🧱 Version 4: Full OOP Refactoring
 
-- `<R>` = Reserved  
-- `F` = Free  
-- `S` = Storage  
-- `｜X｜` = Aisle
+- **Class-Based Architecture** – All functional modules are now refactored into dedicated Python classes.
+- **Main Controller: `BookingSystem`** – The system now runs through a centralized class that manages all modules.
+- **Improved Modularity** – Clear separation of concerns across:
+  - `BookingManager` for reservations
+  - `SeatMap` for seat layout
+  - `DatabaseManager` for data persistence
+  - `Validator` for input validation
+  - `SeatPreference` and `SearchManager` for extended features
+- **Better Maintainability** – Easier to expand, debug, and integrate new features in the future.
+- **Documented Classes** – Each module includes docstrings and inline comments for academic clarity.
 
-## 🧪 Passport & Reference Format Rules
+---
 
-- **Passport Number:** Alphanumeric, 6–9 characters (e.g., A1234567)
-- **Reference Code:** 8 uppercase letters/digits (e.g., XZ19AC7Q)
+## 🧱 Tech Stack & Modules (OOP Version 4)
+
+| File                      | Purpose                                             |
+|---------------------------|-----------------------------------------------------|
+| `booking_system.py`       | Main control class: handles user flow and dispatch |
+| `booking_manager.py`      | Manages booking, group booking, and cancellation   |
+| `seat_map.py`             | Seat layout generation and display logic           |
+| `seat_preference.py`      | Recommends seats based on user preference          |
+| `search_manager.py`       | Searches booking by identity                       |
+| `database_manager.py`     | All SQLite operations encapsulated in class        |
+| `validator.py`            | Static methods for input validation                |
+| `constants.py`            | Global constants (DB path, symbol keys)            |
 
 ---
 
 ## 📦 Version History
 
-| Version | Summary                                                                 |
-|---------|-------------------------------------------------------------------------|
-| `v1.0`  | Core system: check, book, cancel, display layout                        |
-| `v2.0`  | Group booking, seat preference search, booking summary                  |
-| `v3.0`  | Passenger info, reference codes, database, identity-based search        |
+### ✅ Version 1
+- Implemented basic menu-driven CLI structure
+- Seat map using 2D list with status indicators
+- 5 basic features: view, book, cancel, layout, exit
 
-## 📌 Future Improvements (Optional Ideas)
+### ✅ Version 2
+- Added booking summary display
+- Group booking for up to 3 seats
+- Seat preference search (front row priority)
 
-- GUI version using Tkinter or PyQt
-- Admin dashboard to export bookings
-- Email confirmation system (via SMTP)
+### ✅ Version 3
+- Added data persistence with SQLite
+- Booking reference generation (8-char code)
+- Identity-based booking search
+
+### ✅ Version 4
+- Refactored entire system using OOP
+- Modularized all components into classes
+
+---
+
+## 🗂️ Database Schema
+
+```sql
+CREATE TABLE passengers (
+    reference_code TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    passport_number TEXT NOT NULL,
+    seat_id TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+```
+
+---
+
+## 🔧 How to Run
+
+1. Ensure Python 3.10+ is installed
+2. Install `sqlite3` (usually bundled with Python)
+3. Run the project via:
+```bash
+python booking_system.py
+```
 
 ---
 
 ## 👨‍💻 Author
 
-Developed by Jasper Dai, FC723 Coursework Project  
-University of Glasgow / Kaplan GIC (2025)
-
-## 🖥️ How to Run
-
-1. Ensure Python 3.10 or later is installed.
-2. Open terminal in the project directory.
-3. Run the program with:
-```bash
-python main.py
-
+This project was developed as part of the FC723 coursework.
+All code is version-controlled using GitHub and follows academic best practices.
 

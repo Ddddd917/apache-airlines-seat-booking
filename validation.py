@@ -1,76 +1,97 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Mar 30 21:22:30 2025
 
-@author: jaspersdocument
-"""
-
-# validation.py
-
-from constants import COLUMNS, ROWS, AISLE, STORAGE
 import re
-from constants import REFERENCE_CODE_LENGTH
-
-# Check if a seat identifier is valid (e.g., "12A", "80F", etc.)
-def is_valid_seat_id(seat_id):
-    """
-    Validates if the format is correct: number + column letter.
-    Does not check whether the seat exists.
-    """
-    if len(seat_id) < 2 or len(seat_id) > 4:
-        return False
-
-    row_part = seat_id[:-1]
-    col_part = seat_id[-1].upper()
-
-    if not row_part.isdigit():
-        return False
-
-    if col_part not in COLUMNS:
-        return False
-
-    return True  # Valid format, but might still be invalid seat number
-
-# Check if the seat exists in the seat map
-def seat_exists(seat_id, seat_map):
-    """
-    Checks whether the seat_id exists in the current seat_map.
-    Returns True if found, False if not.
-    """
-    return seat_id in seat_map
-
-# Check if a seat is bookable (not aisle or storage)
-def is_bookable(seat_id, seat_map):
-    """
-    Returns True if the seat can be booked (i.e., it is not an aisle or storage area).
-    """
-    status = seat_map.get(seat_id)
-    return status not in [AISLE, STORAGE]
-
-# Check if a seat is currently free
-def is_seat_free(seat_id, seat_map):
-    """
-    Returns True if the seat is currently marked as free.
-    """
-    return seat_map.get(seat_id) == 'F'
-
-# Check if a seat is currently reserved
-def is_seat_reserved(seat_id, seat_map):
-    """
-    Returns True if the seat is currently marked as reserved.
-    """
-    return seat_map.get(seat_id) == 'R'
+from constants import COLUMNS, ROWS, STORAGE, RESERVED, FREE, REFERENCE_CODE_LENGTH
 
 
-def is_valid_passport_number(passport):
+class Validator:
     """
-    Checks if the passport number is alphanumeric and between 6 to 9 characters.
+    Validator is a static utility class that provides input validation
+    methods for seat IDs, passport numbers, reference codes, and seat status.
+    All methods are static and can be called without class instantiation.
     """
-    return passport.isalnum() and (6 <= len(passport) <= 9)
 
-def is_valid_reference_code(code):
-    """
-    Checks if the reference code is 8 characters, alphanumeric, and uppercase.
-    """
-    return len(code) == REFERENCE_CODE_LENGTH and code.isalnum() and code.isupper()
+    @staticmethod
+    def is_valid_seat_id(seat_id):
+        """
+        Checks if a seat identifier (e.g., "12A") is in valid format.
+        Does not check if the seat actually exists.
+
+        :param seat_id: String seat identifier.
+        :return: True if format is correct, False otherwise.
+        """
+        if len(seat_id) < 2 or len(seat_id) > 4:
+            return False
+
+        row_part = seat_id[:-1]
+        col_part = seat_id[-1].upper()
+
+        if not row_part.isdigit():
+            return False
+        if col_part not in COLUMNS:
+            return False
+
+        return True
+
+    @staticmethod
+    def seat_exists(seat_id, seat_map):
+        """
+        Checks whether a given seat_id exists in the provided seat map.
+
+        :param seat_id: String like "12A".
+        :param seat_map: Dictionary of all seat IDs and their status.
+        :return: True if seat exists in seat_map.
+        """
+        return seat_id in seat_map
+
+    @staticmethod
+    def is_bookable(seat_id, seat_map):
+        """
+        Checks if a seat is bookable (not a storage seat).
+
+        :param seat_id: Seat identifier.
+        :param seat_map: Dictionary of all seat IDs.
+        :return: True if seat is not a storage seat.
+        """
+        return seat_map.get(seat_id) != STORAGE
+
+    @staticmethod
+    def is_seat_free(seat_id, seat_map):
+        """
+        Checks if a seat is currently free.
+
+        :param seat_id: Seat identifier.
+        :param seat_map: Dictionary of all seat IDs.
+        :return: True if the seat is free.
+        """
+        return seat_map.get(seat_id) == FREE
+
+    @staticmethod
+    def is_seat_reserved(seat_id, seat_map):
+        """
+        Checks if a seat is currently reserved.
+
+        :param seat_id: Seat identifier.
+        :param seat_map: Dictionary of all seat IDs.
+        :return: True if the seat is reserved.
+        """
+        return seat_map.get(seat_id) == RESERVED
+
+    @staticmethod
+    def is_valid_passport_number(passport_number):
+        """
+        Validates the format of a passport number (alphanumeric, 6–9 characters).
+
+        :param passport_number: String input by user.
+        :return: True if format is acceptable.
+        """
+        return bool(re.fullmatch(r'[A-Za-z0-9]{6,9}', passport_number))
+
+    @staticmethod
+    def is_valid_reference_code(ref_code):
+        """
+        Validates the reference code format (length and alphanumeric).
+
+        :param ref_code: String input by user.
+        :return: True if reference code matches expected format.
+        """
+        return len(ref_code) == REFERENCE_CODE_LENGTH and ref_code.isalnum()

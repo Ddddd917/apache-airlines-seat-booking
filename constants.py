@@ -16,7 +16,7 @@ DB_NAME = "flight757_booking.db"
 
 # Seat status symbols
 FREE = 'F'
-RESERVED = 'R'
+RESERVED = '<R>'
 AISLE = 'X'
 STORAGE = 'S'
 

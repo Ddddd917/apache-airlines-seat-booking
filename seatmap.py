@@ -1,83 +1,81 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Mar 30 21:17:08 2025
-
-@author: jaspersdocument
-"""
-
-# seatmap.py
 
 from constants import ROWS, COLUMNS, FREE, RESERVED, AISLE, STORAGE
 
-# Function to initialize the seat map with default values
-def initialize_seat_map():
-    seat_map = {}
-    for row in range(1, ROWS + 1):
-        for col in COLUMNS:
-            seat_id = f"{row}{col}"
-            # For rows 77 to 80, columns D, E, F are storage areas
-            if row in [77, 78] and col in ['D', 'E', 'F']:
-                seat_map[seat_id] = STORAGE
-            else:
-                seat_map[seat_id] = FREE  # All other seats are initially free
-    return seat_map
 
-# Function to print the seat map in a clear and aligned format
-def display_seat_map(seat_map):
-    print("\n----- Seat Layout -----")
-    # Print the top header row showing seat columns and aisle
-    print("     A   B   C  aisle D   E   F")
+class SeatMap:
+    """
+    The SeatMap class handles the structure, initialization, and display
+    of the aircraft seating layout. It provides methods to display the seat
+    map in a clear format and summarize booking statistics.
+    """
 
-    # Iterate through all 80 rows of the aircraft
-    for row in range(1, ROWS + 1):
-        # Start the line with the row number, left-aligned, padded to 2 characters
-        row_str = f"{row:<2}  "
+    def __init__(self):
+        """
+        Constructor for SeatMap. Initializes a dictionary-based seat map
+        where each key is a seat ID (e.g., '12A') and value is seat status
+        ('F' for free, 'R' for reserved, 'S' for storage).
+        """
+        self.seat_map = self._initialize_seat_map()
 
-        # Print seats on the left side of the aisle (columns A, B, C)
-        for col in ['A', 'B', 'C']:
-            seat_id = f"{row}{col}"
-            status = seat_map.get(seat_id, ' ')
-            if status == RESERVED:
-                row_str += "<R> "  # Highlight reserved seats
-            elif status == FREE:
-                row_str += " F  "  # Free seats
-            elif status == STORAGE:
-                row_str += " S  "  # Storage area
-            else:
-                row_str += f" {status}  "  # Fallback
+    def _initialize_seat_map(self):
+        """
+        Private method to build the seating layout.
+        Rows 77 and 78 columns D, E, F are marked as storage.
 
-        # Insert visual representation of aisle in the middle
-        row_str += "｜X｜ "
+        :return: Dictionary representing the full seat layout.
+        """
+        seat_map = {}
+        for row in range(1, ROWS + 1):
+            for col in COLUMNS:
+                seat_id = f"{row}{col}"
+                # Mark last rows DEF as storage
+                if row in [77, 78] and col in ['D', 'E', 'F']:
+                    seat_map[seat_id] = STORAGE
+                else:
+                    seat_map[seat_id] = FREE
+        return seat_map
 
-        # Print seats on the right side of the aisle (columns D, E, F)
-        for col in ['D', 'E', 'F']:
-            seat_id = f"{row}{col}"
-            status = seat_map.get(seat_id, ' ')
-            if status == RESERVED:
-                row_str += "<R> "  # Highlight reserved seats
-            elif status == FREE:
-                row_str += " F  "  # Free seats
-            elif status == STORAGE:
-                row_str += " S  "  # Storage area
-            else:
-                row_str += f" {status}  "  # Fallback
+    def display_seat_map(self):
+        """
+        Displays the current seat layout in a formatted view.
+        'F' (Free) and 'R' (Reserved) are shown based on real-time seat_map data.
+        """
+        print("\n----- Seat Layout -----")
+        print("     A  B  C|aisle|D  E  F")
 
-        # Print the formatted row string
-        print(row_str)
+        for row in range(1, ROWS + 1):
+            row_display = f"{row:<3} "  # Align row numbers to 3 spaces
+            for i, col in enumerate(COLUMNS):
+                seat_id = f"{row}{col}"
+                status = self.seat_map.get(seat_id, '?')  # fallback for missing seat
+                seat_display = f" {status} "
 
-    # Print the legend to explain seat symbols
-    print("\nLegend: <R> = Reserved, F = Free, ｜X｜ = Aisle, S = Storage")
+                if col == 'C':
+                    row_display += seat_display + " |X"
+                elif col == 'D':
+                    row_display += "| " + seat_display
+                else:
+                    row_display += seat_display
+            print(row_display)
 
-    # ==== Booking Summary ====
-    reserved_seats = [seat_id for seat_id, status in seat_map.items() if status == RESERVED]
-    total_reserved = len(reserved_seats)
+    def display_booking_summary(self):
+        """
+        Displays a summary of total seats, reserved seats, and available seats.
+        Assumes storage seats are not part of total bookable seat count.
+        """
+        total_seats = 0
+        reserved = 0
+        free = 0
 
-    print("\n----- Booking Summary -----")
-    print("Total seats available: 474")
-    print(f"Total reserved seats: {total_reserved}")
-    print(f"Remaining seats: {474-total_reserved}")
-    if reserved_seats:
-        print("Reserved seats:", ' '.join(reserved_seats))
-    else:
-        print("No seats have been reserved yet.")
+        for status in self.seat_map.values():
+            if status == FREE:
+                free += 1
+                total_seats += 1
+            elif status == RESERVED:
+                reserved += 1
+                total_seats += 1
+
+        print("\n----- Booking Summary -----")
+        print(f"Total Seats Available: {total_seats}")
+        print(f"Seats Reserved: {reserved}")
+        print(f"Seats Free: {free}")
