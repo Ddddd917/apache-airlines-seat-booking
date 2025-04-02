@@ -1,0 +1,17 @@
+
+Version 4: Full OOP Refactoring and Controller Replacement
+This update completes Version 4 of the Apache Airlines Seat Booking System.
+
+✅ Key features added:
+
+- Replaced `main.py` with `booking_system.py` as the new central controller  
+- Refactored all core modules into dedicated classes using object-oriented programming (OOP)  
+- Added `BookingManager`, `SeatMap`, `Validator`, `DatabaseManager`, and `SearchManager` classes  
+- Improved code structure, clarity, and modularity for long-term scalability  
+- Integrated full passport number validation (6–9 alphanumeric characters)  
+- Applied static validation methods and consistent error handling  
+- Separated seat operations and user logic for better maintainability  
+- Updated seat status logic to eliminate legacy `row/col` structure  
+- Preserved all Version 3 functionalities within the new OOP structure  
+
+This version satisfies the structural and maintainability requirements of Part C in the FC723 coursework project.
